@@ -919,9 +919,7 @@ footer{background:var(--black);color:rgba(255,255,255,.7);font-size:14px;padding
   freqSel.addEventListener('change',function(){state.freq=freqSel.value;});
   /* verified live: Recharge subscription quantity ladder qty1=10%, qty2=15%, qty3+=25% (one-time has none) */
   function tierRate(q){ return q>=3?0.25 : (q===2?0.15:0.10); }
-  function discUnit(base,rate){ return Math.floor(base*rate*100)/100; }   /* store floors per-unit discount to the cent */
-  /* intro offer: 30% off the FIRST order applies to both plans; subscriptions then renew at the subscriber rate */
-  function unit(it){ return disc(it.base); }
+  /* intro offer: 30% off the FIRST order applies to both plans (one-time + subscription first order); subscriptions then renew at the subscriber rate */
   var qnumEl=document.getElementById('qnum'), qhintEl=document.getElementById('qhint');
   document.getElementById('qplus').addEventListener('click',function(){ if(state.qty<12){state.qty++;refresh();} });
   document.getElementById('qminus').addEventListener('click',function(){ if(state.qty>1){state.qty--;refresh();} });
@@ -987,7 +985,7 @@ footer{background:var(--black);color:rgba(255,255,255,.7);font-size:14px;padding
     empty.style.display='none'; foot.style.display='block';
     var subtotal=0,savings=0;
     cart.forEach(function(item,idx){
-      var u=item.sub?unit(item):disc(item.base); subtotal+=u*item.qty;
+      var u=disc(item.base); subtotal+=u*item.qty;
       var was=item.base;
       savings+=(was-u)*item.qty;
       var el=document.createElement('div'); el.className='ci';
@@ -1048,7 +1046,7 @@ footer{background:var(--black);color:rgba(255,255,255,.7);font-size:14px;padding
   }
   document.getElementById('checkout-btn').addEventListener('click',function(){
     if(!cart.length) return;
-    var subtotal=cart.reduce(function(s,i){return s+unit(i)*i.qty;},0);
+    var subtotal=cart.reduce(function(s,i){return s+disc(i.base)*i.qty;},0);
     var totalq=cart.reduce(function(s,i){return s+i.qty;},0);
     fbqTrack('InitiateCheckout', { content_type:'product', content_ids:cart.map(function(i){return i.vid;}), contents:cart.map(function(i){return {id:i.vid,quantity:i.qty};}), num_items:totalq, value:subtotal, currency:'USD' });
     var saved=getSavedParams();
@@ -1060,7 +1058,7 @@ footer{background:var(--black);color:rgba(255,255,255,.7);font-size:14px;padding
     } else if(cart.length===1){
       // single subscription line, /cart/add attaches the Recharge plan, then checkout with the 1st-order intro code
       var i=cart[0];
-      url=STORE+'/cart/clear?return_to='+encodeURIComponent('/cart/add?id='+i.vid+'&quantity='+i.qty+(i.selling_plan?'&selling_plan='+i.selling_plan:'')+'&return_to=/checkout?discount='+DISCOUNT+(saved?'&'+saved:''));
+      url=STORE+'/cart/clear?return_to='+encodeURIComponent('/cart/add?id='+i.vid+'&quantity='+i.qty+(i.selling_plan?'&selling_plan='+i.selling_plan:'')+'&return_to='+encodeURIComponent('/checkout?discount='+DISCOUNT+(saved?'&'+saved:'')));
     } else {
       // multiple lines incl. a subscription, add each on the store, then checkout
       setTimeout(function(){ sequentialAdd(saved); }, 250);
