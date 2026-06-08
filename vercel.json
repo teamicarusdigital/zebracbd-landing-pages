@@ -4,5 +4,15 @@
       "path": "/api/stock",
       "schedule": "0 */6 * * *"
     }
+  ],
+  "redirects": [
+    { "source": "/page1", "destination": "/zebra-muscle-rub", "permanent": true },
+    { "source": "/page1/:path*", "destination": "/zebra-muscle-rub/:path*", "permanent": true },
+    { "source": "/page2", "destination": "/zebra-sleep-oil", "permanent": true },
+    { "source": "/page2/:path*", "destination": "/zebra-sleep-oil/:path*", "permanent": true },
+    { "source": "/page3", "destination": "/zebra-cooling-gel", "permanent": true },
+    { "source": "/page3/:path*", "destination": "/zebra-cooling-gel/:path*", "permanent": true },
+    { "source": "/page4", "destination": "/zebra-sleep-bundle", "permanent": true },
+    { "source": "/page4/:path*", "destination": "/zebra-sleep-bundle/:path*", "permanent": true }
   ]
 }
