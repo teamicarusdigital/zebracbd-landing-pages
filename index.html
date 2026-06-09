@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zebra CBD</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+iframe{display:block;width:100%;height:100vh;border:none}
+</style>
+<script>
+/* Forward incoming UTM/tracking params into the iframe src */
+(function(){
+  var qs = window.location.search;
+  var base = 'https://zebracbd.com';
+  var src = qs ? base + '/' + qs : base + '/';
+  document.addEventListener('DOMContentLoaded', function(){
+    document.getElementById('main-frame').src = src;
+  });
+})();
+</script>
+</head>
+<body>
+<iframe id="main-frame" src="https://zebracbd.com/" title="Zebra CBD" allowfullscreen></iframe>
+</body>
+</html>

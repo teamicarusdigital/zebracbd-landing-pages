@@ -31,6 +31,26 @@
   fbq('track', 'PageView');
 </script>
 <!-- End Meta Pixel -->
+<!-- Tracklution Pixel -->
+<script>
+    !function(t,l,r,o,c,k,s)
+    {if(t.tlq)return;c=t.tlq=function(){c.callMethod?
+        c.callMethod(arguments):c.queue.push(arguments)};
+        if(!t._tlq)t._tlq=c;c.push=c;c.loaded=!0;c.version='1.0';c.src=o;
+        c.queue=[];k=l.createElement(r);k.async=!0;c.pd = false;c.tools = null;
+        k.src=o;s=l.getElementsByTagName(r)[0];
+        s.parentNode.insertBefore(k,s);k.onerror=function(){
+        o='https://main-9301.trlution.com/js/script-dynamic.js?version=1781009161820';
+        t._tlq.src=o;k=l.createElement(r);k.async=!0;k.src=o;
+        s.parentNode.insertBefore(k, s)
+        }}(window,document,'script',
+        'https://main-9301.trlution.com/js/script-dynamic.js?version=1781009161820')
+
+    tlq('init', 'LS-33309028-1js');
+    tlq('track', 'PageView');
+    tlq('track', 'ViewContent', {content_name: 'Zebra CBD Muscle Rub'});
+</script>
+<!-- End Tracklution Pixel -->
 <style>
 /* ============ TOKENS, Zebra CBD Calm Commerce ============ */
 :root{
@@ -1031,6 +1051,7 @@ footer{background:var(--black);color:rgba(255,255,255,.7);font-size:14px;padding
     saveCart(cart); render(); openCart();
     var u=disc(v.price);
     fbqTrack('AddToCart', { content_name:PRODUCT_NAME, content_type:'product', content_ids:[v.vid], contents:[{id:v.vid,quantity:q}], value:Math.round(u*q*100)/100, currency:'USD' });
+    if (typeof tlq === 'function') { tlq('track', 'AddToCart', { content_name:PRODUCT_NAME, content_ids:[v.vid], value:Math.round(u*q*100)/100, currency:'USD' }); }
   });
   var veil=document.getElementById('veil'), drawer=document.getElementById('cart-drawer');
   function openCart(){veil.classList.add('show');drawer.classList.add('show');drawer.setAttribute('aria-hidden','false');}
@@ -1062,6 +1083,7 @@ footer{background:var(--black);color:rgba(255,255,255,.7);font-size:14px;padding
     var subtotal=cart.reduce(function(s,i){return s+disc(i.base)*i.qty;},0);
     var totalq=cart.reduce(function(s,i){return s+i.qty;},0);
     fbqTrack('InitiateCheckout', { content_type:'product', content_ids:cart.map(function(i){return i.vid;}), contents:cart.map(function(i){return {id:i.vid,quantity:i.qty};}), num_items:totalq, value:subtotal, currency:'USD' });
+    if (typeof tlq === 'function') { tlq('track', 'InitiateCheckout', { value:subtotal, currency:'USD', num_items:totalq }); }
     var saved=getSavedParams();
     var hasSub=cart.some(function(i){return i.selling_plan;});
     var url;

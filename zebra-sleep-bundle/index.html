@@ -30,6 +30,26 @@
   fbq('track', 'PageView');
 </script>
 <!-- End Meta Pixel -->
+<!-- Tracklution Pixel -->
+<script>
+    !function(t,l,r,o,c,k,s)
+    {if(t.tlq)return;c=t.tlq=function(){c.callMethod?
+        c.callMethod(arguments):c.queue.push(arguments)};
+        if(!t._tlq)t._tlq=c;c.push=c;c.loaded=!0;c.version='1.0';c.src=o;
+        c.queue=[];k=l.createElement(r);k.async=!0;c.pd = false;c.tools = null;
+        k.src=o;s=l.getElementsByTagName(r)[0];
+        s.parentNode.insertBefore(k,s);k.onerror=function(){
+        o='https://main-9301.trlution.com/js/script-dynamic.js?version=1781009161820';
+        t._tlq.src=o;k=l.createElement(r);k.async=!0;k.src=o;
+        s.parentNode.insertBefore(k, s)
+        }}(window,document,'script',
+        'https://main-9301.trlution.com/js/script-dynamic.js?version=1781009161820')
+
+    tlq('init', 'LS-33309028-1js');
+    tlq('track', 'PageView');
+    tlq('track', 'ViewContent', {content_name: 'CBD Sleep Bundle'});
+</script>
+<!-- End Tracklution Pixel -->
 <style>
 /* ============ TOKENS, Zebra CBD Calm Commerce (LOCKED) ============ */
 :root{
@@ -1057,12 +1077,14 @@ footer{background:var(--black);color:rgba(255,255,255,.7);font-size:14px;padding
     cart[pid]=lineFor(pid); saveCart(); render(); openCart();
     var l=cart[pid];
     fbqTrack('AddToCart',{content_name:l.name,content_type:'product',content_ids:[l.vid],contents:[{id:l.vid,quantity:l.qty}],value:Math.round(disc(l.price)*l.qty*100)/100,currency:'USD'});
+    if (typeof tlq === 'function') { tlq('track', 'AddToCart', { content_name:l.name, content_ids:[l.vid], value:Math.round(disc(l.price)*l.qty*100)/100, currency:'USD' }); }
   }
   document.getElementById('add-bundle').addEventListener('click',function(){
     /* Bundle = the advertised $99.90 Complete Sleep System: 1 Gummies pack + 1 Sleep Oil bottle */
     cart.gummies=lineForPack('gummies',1,1); cart.oil=lineForPack('oil',1,1); saveCart(); render(); openCart();
     var val=Math.round((disc(cart.gummies.price)*cart.gummies.qty+disc(cart.oil.price)*cart.oil.qty)*100)/100;
     fbqTrack('AddToCart',{content_name:'Complete Sleep System',content_type:'product_group',content_ids:[cart.gummies.vid,cart.oil.vid],contents:[{id:cart.gummies.vid,quantity:cart.gummies.qty},{id:cart.oil.vid,quantity:cart.oil.qty}],value:val,currency:'USD'});
+    if (typeof tlq === 'function') { tlq('track', 'AddToCart', { content_name:'Complete Sleep System', content_ids:[cart.gummies.vid,cart.oil.vid], value:val, currency:'USD' }); }
   });
 
   function totalQty(){var n=0;for(var k in cart)n+=cart[k].qty;return n;}
@@ -1141,6 +1163,7 @@ footer{background:var(--black);color:rgba(255,255,255,.7);font-size:14px;padding
     var lines=keys.map(function(pid){return cart[pid];});
     var subtotal=lines.reduce(function(s,i){return s+disc(i.price)*i.qty;},0);
     fbqTrack('InitiateCheckout',{content_type:'product',content_ids:lines.map(function(i){return i.vid;}),contents:lines.map(function(i){return {id:i.vid,quantity:i.qty};}),num_items:lines.reduce(function(s,i){return s+i.qty;},0),value:Math.round(subtotal*100)/100,currency:'USD'});
+    if (typeof tlq === 'function') { tlq('track', 'InitiateCheckout', { value:Math.round(subtotal*100)/100, currency:'USD', num_items:lines.reduce(function(s,i){return s+i.qty;},0) }); }
     var saved=getSavedParams();
     /* one-time multi-line permalink + bundle discount, preserving incoming UTMs */
     var url=STORE+'/cart/clear?return_to='+encodeURIComponent('/cart/'+lines.map(function(i){return i.vid+':'+i.qty;}).join(',')+'?discount='+DISCOUNT+(saved?'&'+saved:''));
