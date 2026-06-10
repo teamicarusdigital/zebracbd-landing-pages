@@ -528,7 +528,7 @@ footer{background:var(--black);color:rgba(255,255,255,.7);font-size:14px;padding
 <section class="hero">
   <picture>
     <source media="(max-width:768px)" srcset="assets/hero-sleep-mobile.webp">
-    <img class="hero-bg" src="https://zebracbd-offer.com/wp-content/uploads/2025/08/imgi_124_Zebra-Headers-Sleep1600x772-2.webp" width="1600" height="772" alt="A person sleeping peacefully with a sleep mask in a calm, dimly lit bedroom" fetchpriority="high">
+    <img class="hero-bg" src="assets/hero-sleep-desktop.webp" width="1600" height="772" alt="A person sleeping peacefully with a sleep mask in a calm, dimly lit bedroom" fetchpriority="high">
   </picture>
   <div class="hero-scrim"></div>
   <div class="wrap hero-in">
@@ -1089,13 +1089,13 @@ footer{background:var(--black);color:rgba(255,255,255,.7);font-size:14px;padding
 
   function totalQty(){var n=0;for(var k in cart)n+=cart[k].qty;return n;}
   var UPSELL_PRODUCTS=[
-    {vid:'44961396850842',label:'CBD Tension & Stress Tablets',meta:'1 bottle',price:49.95,img:'https://cdn.shopify.com/s/files/1/0080/7567/3690/products/Tension_Stress_1024x1024_single.png?v=1695750495'},
-    {vid:'31697798758490',label:'CBD Oil – Full-Spectrum Blend',meta:'1 bottle',price:49.95,img:'https://cdn.shopify.com/s/files/1/0080/7567/3690/products/Oil_Natural_1024x1024_single.png?v=1695749933'},
-    {vid:'44870948126874',label:'CBD Mood & Calm Tablets',meta:'1 bottle',price:49.95,img:'https://cdn.shopify.com/s/files/1/0080/7567/3690/products/Mood-Calm_1024x1024_single.png?v=1695749742'},
-    {vid:'44623478161562',label:'CBD Calming Gummies',meta:'1 pack',price:49.95,img:'https://cdn.shopify.com/s/files/1/0080/7567/3690/products/coLeBA7w.png?v=1695750618'},
-    {vid:'45247636275354',label:'CBD Sleep Oil (Melatonin-Free)',meta:'1 bottle',price:49.95,img:'https://cdn.shopify.com/s/files/1/0080/7567/3690/files/Zebra_CBD_Sleep_Oil_1024-Single.jpg?v=1726685098'},
-    {vid:'31582445305946',label:'CBD Sleep Support Tablets',meta:'1 bottle',price:49.95,img:'https://cdn.shopify.com/s/files/1/0080/7567/3690/products/Sleep_1024x1024_single.png?v=1695750266'},
-    {vid:'44623092252826',label:'Sleep CBD + CBN Gummies',meta:'1 pack',price:49.95,img:'https://cdn.shopify.com/s/files/1/0080/7567/3690/products/Gummies-Sleep_1024x1024_single.png?v=1695750669'}
+    {vid:'44961396850842',label:'CBD Tension & Stress Tablets',meta:'1 bottle',price:49.95,img:'/shared/addon-tension-stress.png'},
+    {vid:'31697798758490',label:'CBD Oil – Full-Spectrum Blend',meta:'1 bottle',price:49.95,img:'/shared/addon-cbd-oil.png'},
+    {vid:'44870948126874',label:'CBD Mood & Calm Tablets',meta:'1 bottle',price:49.95,img:'/shared/addon-mood-calm.png'},
+    {vid:'44623478161562',label:'CBD Calming Gummies',meta:'1 pack',price:49.95,img:'/shared/addon-calming-gummies.png'},
+    {vid:'45247636275354',label:'CBD Sleep Oil (Melatonin-Free)',meta:'1 bottle',price:49.95,img:'/shared/addon-sleep-oil.jpg'},
+    {vid:'31582445305946',label:'CBD Sleep Support Tablets',meta:'1 bottle',price:49.95,img:'/shared/addon-sleep-tablets.png'},
+    {vid:'44623092252826',label:'Sleep CBD + CBN Gummies',meta:'1 pack',price:49.95,img:'/shared/addon-sleep-gummies.png'}
   ];
   function renderUpsell(){
     var uEl=document.getElementById('cart-upsell'),scr=document.getElementById('upsell-scroll');
