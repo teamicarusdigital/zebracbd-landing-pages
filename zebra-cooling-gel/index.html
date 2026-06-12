@@ -731,7 +731,7 @@ footer{background:var(--black);color:rgba(255,255,255,.7);font-size:14px;padding
 
         <div class="opt-label"><span class="opt-num">3</span> Choose your plan</div>
         <div class="plan" id="plan">
-          <label class="plan-card active" data-plan="onetime"><span class="plan-radio" aria-hidden="true"></span><span><span class="t">One-Time Purchase</span><span class="s">30% off your 1st order · no commitment</span></span></label>
+          <label class="plan-card active" data-plan="onetime"><span class="plan-radio" aria-hidden="true"></span><span><span class="t">One-Time Purchase</span><span class="s">Regular price · 30% off at checkout</span></span></label>
           <label class="plan-card" data-plan="subscribe"><span class="plan-radio" aria-hidden="true"></span><span><span class="t">Subscribe &amp; Save</span><span class="s">30% off 1st order, then up to 25% off refills</span></span><span class="tag">Up to 25%</span></label>
         </div>
         <p class="intro-note">Intro offer: the <strong>30% discount applies to your first order only</strong>. One-time reorders are billed at the regular price; subscriptions renew at your subscriber rate (you keep up to 25% off). Cancel anytime.</p>
@@ -743,7 +743,7 @@ footer{background:var(--black);color:rgba(255,255,255,.7);font-size:14px;padding
           </select>
         </div>
 
-        <div class="buy-total"><span class="lbl">Total</span><span class="val" id="buy-total-val">$114.90</span></div>
+        <div class="buy-total"><span class="lbl" id="buy-total-lbl">Total</span><span class="val" id="buy-total-val">$114.90</span></div>
         <button class="btn btn-primary btn-block" id="add-to-cart">Add to Cart</button>
         <div class="buy-note">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1204,20 +1204,21 @@ footer{background:var(--black);color:rgba(255,255,255,.7);font-size:14px;padding
   function refresh(){
     var v=current(), sub=state.plan==="subscribe", q=state.qty;
     if(qnumEl) qnumEl.textContent=q;
-    var u = disc(v.price);   /* first order: 30% intro on either plan */
+    var u = sub ? disc(v.price) : v.price;
     var total = Math.round(u*q*100)/100;
     document.getElementById('buy-total-val').textContent=money(total);
+    var lbl=document.getElementById('buy-total-lbl'); if(lbl) lbl.textContent=sub?'Today\'s price':'Regular price';
     var sbp=document.getElementById('sb-price'); if(sbp) sbp.textContent=money(total);
-    var saved=Math.round((v.price-u)*q*100)/100;
+    var saved=Math.round((v.price-disc(v.price))*q*100)/100;
     if(sub){
       var pct=Math.round(tierRate(q)*100);
       saveMsg.textContent="30% off your 1st order, then save "+pct+"% on every refill";
       saveFill.style.width=(q>=3?100:q===2?66:40)+"%";
       if(qhintEl) qhintEl.textContent="Renews at "+pct+"% off · cancel anytime";
     } else {
-      saveMsg.textContent="You're saving "+money(saved)+" (30% off your 1st order)";
+      saveMsg.textContent="30% off applied automatically at checkout · saves "+money(saved);
       saveFill.style.width=(state.jars===1?20:state.jars===2?60:100)+"%";
-      if(qhintEl) qhintEl.textContent="1st-order intro price · reorders at regular price";
+      if(qhintEl) qhintEl.textContent="30% off at checkout · no commitment";
     }
   }
   refresh();
