@@ -1,5 +1,6 @@
 const HANDLES = [
   'cbd-rub-muscles-joints',
+  'cbd-joint-muscle-gummies',
   'cbd-sleep-oil-cbd-cbn-oil-blend',
   'cbd-3oz-roll-on-cooling-gel',
   'cbd-sleep-gummies'
