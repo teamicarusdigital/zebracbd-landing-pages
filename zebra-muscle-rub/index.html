@@ -604,10 +604,10 @@ footer{background:var(--black);color:rgba(255,255,255,.7);font-size:14px;padding
 
           <div class="opt-label"><span class="opt-num">3</span> Choose your plan</div>
           <div class="plan">
-            <label class="plan-card active" data-plan="onetime"><span class="plan-radio" aria-hidden="true"></span><span><span class="t">One-Time Purchase</span><span class="s">30% off your first order</span></span></label>
-            <label class="plan-card" data-plan="subscribe"><span class="plan-radio" aria-hidden="true"></span><span><span class="t">Subscribe &amp; Save</span><span class="s">30% off 1st order, then up to 25% off refills</span></span><span class="ptag">Up to 25%</span></label>
+            <label class="plan-card" data-plan="onetime"><span class="plan-radio" aria-hidden="true"></span><span><span class="t">One-Time Purchase</span><span class="s">Regular price · 30% off at checkout</span></span></label>
+            <label class="plan-card active" data-plan="subscribe"><span class="plan-radio" aria-hidden="true"></span><span><span class="t">Subscribe &amp; Save</span><span class="s">Save 30% now, then up to 25% off refills</span></span><span class="ptag">Best deal</span></label>
           </div>
-          <div class="freq" style="display:none">
+          <div class="freq">
             <select class="freq-select" aria-label="Delivery frequency">
               <option value="223318376602">Deliver every 30 days</option>
               <option value="223318442138">Deliver every 60 days</option>
@@ -669,10 +669,10 @@ footer{background:var(--black);color:rgba(255,255,255,.7);font-size:14px;padding
 
           <div class="opt-label"><span class="opt-num">3</span> Choose your plan</div>
           <div class="plan">
-            <label class="plan-card active" data-plan="onetime"><span class="plan-radio" aria-hidden="true"></span><span><span class="t">One-Time Purchase</span><span class="s">30% off your first order</span></span></label>
-            <label class="plan-card" data-plan="subscribe"><span class="plan-radio" aria-hidden="true"></span><span><span class="t">Subscribe &amp; Save</span><span class="s">30% off 1st order, then up to 25% off refills</span></span><span class="ptag">Up to 25%</span></label>
+            <label class="plan-card" data-plan="onetime"><span class="plan-radio" aria-hidden="true"></span><span><span class="t">One-Time Purchase</span><span class="s">Regular price · 30% off at checkout</span></span></label>
+            <label class="plan-card active" data-plan="subscribe"><span class="plan-radio" aria-hidden="true"></span><span><span class="t">Subscribe &amp; Save</span><span class="s">Save 30% now, then up to 25% off refills</span></span><span class="ptag">Best deal</span></label>
           </div>
-          <div class="freq" style="display:none">
+          <div class="freq">
             <select class="freq-select" aria-label="Delivery frequency">
               <option value="199845806234">Deliver every 30 days</option>
               <option value="199845871770">Deliver every 60 days</option>
@@ -917,7 +917,7 @@ footer{background:var(--black);color:rgba(255,255,255,.7);font-size:14px;padding
     <div class="stars">★★★★★</div>
     <h2>The Zebra CBD experience</h2>
     <p>Over 6,000 customers have given us a 5-star rating and 90% keep coming back for more. Soothe the spot that hurts and support recovery every day, with the rub and the gummies.</p>
-    <a href="#buy" class="btn btn-primary btn-lg">Shop Now, From $49.95</a>
+    <a href="#buy" class="btn btn-primary btn-lg">Shop Now, From $34.97</a>
     <div class="guar">Protected by our 90-Day Money-Back Guarantee</div>
   </div>
 </section>
@@ -970,7 +970,7 @@ footer{background:var(--black);color:rgba(255,255,255,.7);font-size:14px;padding
 <div class="sticky-buy" id="sticky-buy" aria-hidden="true">
   <div class="sb-info">
     <span class="sb-name">Joint + Muscle</span>
-    <span class="sb-price">From $49.95</span>
+    <span class="sb-price">From $34.97</span>
   </div>
   <a href="#buy" class="btn btn-primary">Shop Now</a>
 </div>
@@ -1005,7 +1005,7 @@ footer{background:var(--black);color:rgba(255,255,255,.7);font-size:14px;padding
       variants:{1:{vid:"44635215659162",price:49.95,compare:0},2:{vid:"44635215691930",price:94.30,compare:99.90},4:{vid:"44635215724698",price:177.55,compare:199.90}},
       plans:{30:"199845806234",60:"199845871770",90:"199845839002"}}
   };
-  var state={rub:{pack:2,qty:1,plan:"onetime",freq:"223318376602"}, gummies:{pack:2,qty:1,plan:"onetime",freq:"199845806234"}};
+  var state={rub:{pack:2,qty:1,plan:"subscribe",freq:"223318376602"}, gummies:{pack:2,qty:1,plan:"subscribe",freq:"199845806234"}};
   function money(n){return "$"+n.toFixed(2);}
   function disc(p){return Math.round((p-Math.floor(p*RATE*100)/100)*100)/100;}
   function variant(pid){return PRODUCTS[pid].variants[state[pid].pack];}
@@ -1054,6 +1054,7 @@ footer{background:var(--black);color:rgba(255,255,255,.7);font-size:14px;padding
       });
     });
     freqSel.addEventListener('change',function(){state[pid].freq=freqSel.value;});
+    freqWrap.style.display=state[pid].plan==="subscribe"?"block":"none";
     box.querySelector('.add-to-cart').addEventListener('click',function(){ addToCart(pid); });
     box._refs={
       qnum:box.querySelector('.qnum'), total:box.querySelector('.buy-total-val'),
@@ -1068,30 +1069,35 @@ footer{background:var(--black);color:rgba(255,255,255,.7);font-size:14px;padding
   function refreshBox(pid){
     var v=variant(pid), sub=state[pid].plan==="subscribe", q=state[pid].qty, r=boxes[pid]._refs;
     r.qnum.textContent=q;
-    /* 30% off is applied automatically at checkout on the first order for BOTH plans,
-       so always show the real discounted price the customer pays today. */
-    var d=disc(v.price);
-    r.total.textContent=money(Math.round(d*q*100)/100);
-    if(r.lbl) r.lbl.textContent="Today's price (30% off)";
-    var saved=Math.round((v.price-d)*q*100)/100;
+    /* Subscribe & Save shows the 30%-off price the subscriber locks in; One-Time shows
+       the regular price (the 30% intro is still applied at checkout, noted on the card). */
+    var u = sub ? disc(v.price) : v.price;
+    r.total.textContent=money(Math.round(u*q*100)/100);
+    if(r.lbl) r.lbl.textContent=sub?"Today's price (30% off)":"One-time price";
+    var saved=Math.round((v.price-disc(v.price))*q*100)/100;
     if(sub){
       var pct=Math.round(tierRate(q)*100);
-      r.save.textContent="30% off your 1st order, then save "+pct+"% on every refill";
+      r.save.textContent="Save 30% now, then "+pct+"% off every refill";
       if(r.fill) r.fill.style.width=(q>=3?100:q===2?66:40)+"%";
       if(r.hint) r.hint.textContent="Renews at "+pct+"% off · cancel anytime";
     } else {
-      r.save.textContent="You save "+money(saved)+" (30% off) today";
+      r.save.textContent="30% off is applied automatically at checkout";
       if(r.fill) r.fill.style.width=(state[pid].pack===1?20:state[pid].pack===2?60:100)+"%";
-      if(r.hint) r.hint.textContent="30% off · no commitment";
+      if(r.hint) r.hint.textContent="No commitment · 30% off at checkout";
     }
-    /* size tiles always show the 30%-off price with the regular price struck through */
     Array.prototype.forEach.call(r.tiles,function(tile){
       var pk=parseInt(tile.dataset.pack),tv=PRODUCTS[pid].variants[pk];if(!tv)return;
       var pjEl=tile.querySelector('.pj'),prEl=tile.querySelector('.pr');if(!prEl)return;
-      var wasEl=prEl.querySelector('.was'), dp=disc(tv.price);
-      if(pjEl)pjEl.textContent='$'+(Math.round(dp/pk*100)/100).toFixed(2)+' / '+r.unit;
-      if(prEl.firstChild)prEl.firstChild.nodeValue='$'+dp.toFixed(2);
-      if(wasEl){wasEl.textContent='$'+tv.price.toFixed(2);wasEl.style.display='';}
+      var wasEl=prEl.querySelector('.was');
+      if(sub){var dp=disc(tv.price);
+        if(pjEl)pjEl.textContent='$'+(Math.round(dp/pk*100)/100).toFixed(2)+' / '+r.unit;
+        if(prEl.firstChild)prEl.firstChild.nodeValue='$'+dp.toFixed(2);
+        if(wasEl){wasEl.textContent='$'+tv.price.toFixed(2);wasEl.style.display='';}
+      }else{
+        if(pjEl)pjEl.textContent='$'+(Math.round(tv.price/pk*100)/100).toFixed(2)+' / '+r.unit;
+        if(prEl.firstChild)prEl.firstChild.nodeValue='$'+tv.price.toFixed(2);
+        if(wasEl){if(tv.compare){wasEl.textContent='$'+tv.compare.toFixed(2);wasEl.style.display='';}else{wasEl.style.display='none';}}
+      }
     });
   }
 
