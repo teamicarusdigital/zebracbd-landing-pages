@@ -717,7 +717,7 @@ footer{background:var(--black);color:rgba(255,255,255,.7);font-size:14px;padding
           <label class="qty-tile active" data-jars="2"><span class="tag">Most Popular</span><img class="tile-img" src="assets/pack-2.webp" alt="Two bottles"><span class="jars">2 Bottles</span><span class="pj">$40.22 / bottle</span><span class="pr">$80.43<span class="was">$114.90</span></span></label>
           <label class="qty-tile" data-jars="4"><span class="tag best">Best Value</span><img class="tile-img" src="assets/pack-4.webp" alt="Four bottles"><span class="jars">4 Bottles</span><span class="pj">$37.91 / bottle</span><span class="pr">$151.62<span class="was">$216.60</span></span></label>
         </div>
-        <div class="savebar"><span id="save-msg">You're saving $5.00 with this bundle</span><span class="savetrack"><i id="save-fill" style="width:60%"></i></span></div>
+        <div class="savebar"><span id="save-msg">You save $34.47 (30% off) today</span><span class="savetrack"><i id="save-fill" style="width:60%"></i></span></div>
 
         <div class="opt-label"><span class="opt-num">2</span> Quantity</div>
         <div class="qtystep">
@@ -731,7 +731,7 @@ footer{background:var(--black);color:rgba(255,255,255,.7);font-size:14px;padding
 
         <div class="opt-label"><span class="opt-num">3</span> Choose your plan</div>
         <div class="plan" id="plan">
-          <label class="plan-card active" data-plan="onetime"><span class="plan-radio" aria-hidden="true"></span><span><span class="t">One-Time Purchase</span><span class="s">Regular price · 30% off at checkout</span></span></label>
+          <label class="plan-card active" data-plan="onetime"><span class="plan-radio" aria-hidden="true"></span><span><span class="t">One-Time Purchase</span><span class="s">30% off your first order</span></span></label>
           <label class="plan-card" data-plan="subscribe"><span class="plan-radio" aria-hidden="true"></span><span><span class="t">Subscribe &amp; Save</span><span class="s">30% off 1st order, then up to 25% off refills</span></span><span class="tag">Up to 25%</span></label>
         </div>
         <p class="intro-note"><strong>30% off is applied automatically at checkout for your first order.</strong> Subscribe to keep saving on every refill (up to 25% off ongoing). Cancel anytime.</p>
@@ -743,7 +743,7 @@ footer{background:var(--black);color:rgba(255,255,255,.7);font-size:14px;padding
           </select>
         </div>
 
-        <div class="buy-total"><span class="lbl" id="buy-total-lbl">Total</span><span class="val" id="buy-total-val">$114.90</span></div>
+        <div class="buy-total"><span class="lbl" id="buy-total-lbl">Today's price (30% off)</span><span class="val" id="buy-total-val">$80.43</span></div>
         <button class="btn btn-primary btn-block" id="add-to-cart">Add to Cart</button>
         <div class="buy-note">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1204,35 +1204,31 @@ footer{background:var(--black);color:rgba(255,255,255,.7);font-size:14px;padding
   function refresh(){
     var v=current(), sub=state.plan==="subscribe", q=state.qty;
     if(qnumEl) qnumEl.textContent=q;
-    var u = sub ? disc(v.price) : v.price;
-    var total = Math.round(u*q*100)/100;
+    /* 30% off applies automatically at checkout on the first order for both plans,
+       so always show the real discounted price the customer pays today. */
+    var d = disc(v.price);
+    var total = Math.round(d*q*100)/100;
     document.getElementById('buy-total-val').textContent=money(total);
-    var lbl=document.getElementById('buy-total-lbl'); if(lbl) lbl.textContent=sub?'Today\'s price':'Regular price';
+    var lbl=document.getElementById('buy-total-lbl'); if(lbl) lbl.textContent="Today's price (30% off)";
     var sbp=document.getElementById('sb-price'); if(sbp) sbp.textContent=money(total);
-    var saved=Math.round((v.price-disc(v.price))*q*100)/100;
+    var saved=Math.round((v.price-d)*q*100)/100;
     if(sub){
       var pct=Math.round(tierRate(q)*100);
       saveMsg.textContent="30% off your 1st order, then save "+pct+"% on every refill";
       saveFill.style.width=(q>=3?100:q===2?66:40)+"%";
       if(qhintEl) qhintEl.textContent="Renews at "+pct+"% off · cancel anytime";
     } else {
-      saveMsg.textContent="30% off applied automatically at checkout · saves "+money(saved);
+      saveMsg.textContent="You save "+money(saved)+" (30% off) today";
       saveFill.style.width=(state.jars===1?20:state.jars===2?60:100)+"%";
-      if(qhintEl) qhintEl.textContent="30% off at checkout · no commitment";
+      if(qhintEl) qhintEl.textContent="30% off · no commitment";
     }
     Array.prototype.forEach.call(document.querySelectorAll('#qty .qty-tile'),function(tile){
       var j=parseInt(tile.dataset.jars),tv=VARIANTS[j];if(!tv)return;
       var pjEl=tile.querySelector('.pj'),prEl=tile.querySelector('.pr');if(!prEl)return;
-      var wasEl=prEl.querySelector('.was');
-      if(sub){var dp=disc(tv.price);
-        if(pjEl)pjEl.textContent='$'+(Math.round(dp/j*100)/100).toFixed(2)+' / bottle';
-        if(prEl.firstChild)prEl.firstChild.nodeValue='$'+dp.toFixed(2);
-        if(wasEl){wasEl.textContent='$'+tv.price.toFixed(2);wasEl.style.display='';}
-      }else{
-        if(pjEl)pjEl.textContent='$'+(Math.round(tv.price/j*100)/100).toFixed(2)+' / bottle';
-        if(prEl.firstChild)prEl.firstChild.nodeValue='$'+tv.price.toFixed(2);
-        if(wasEl)wasEl.style.display='none';
-      }
+      var wasEl=prEl.querySelector('.was'), dp=disc(tv.price);
+      if(pjEl)pjEl.textContent='$'+(Math.round(dp/j*100)/100).toFixed(2)+' / bottle';
+      if(prEl.firstChild)prEl.firstChild.nodeValue='$'+dp.toFixed(2);
+      if(wasEl){wasEl.textContent='$'+tv.price.toFixed(2);wasEl.style.display='';}
     });
   }
   refresh();
