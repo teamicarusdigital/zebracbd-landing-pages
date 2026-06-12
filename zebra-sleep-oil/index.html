@@ -1140,7 +1140,7 @@ footer{background:var(--black);color:rgba(255,255,255,.7);font-size:14px;padding
       io.observe(main);
     }
   })();
-  /* ===== stock check (cron-warmed, 6-hr CDN cache) ===== */
+  /* ===== stock check (cron-warmed, 12-hr CDN cache) ===== */
   (function(){
     var s=document.createElement('style');
     s.textContent='.qty-tile.oos{opacity:.5;cursor:not-allowed;pointer-events:none;position:relative}.qty-tile.oos::after{content:"Out of Stock";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.82);color:#c0392b;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;border-radius:inherit}';

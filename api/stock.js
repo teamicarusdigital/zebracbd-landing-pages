@@ -40,7 +40,7 @@ module.exports = async function(req, res) {
     variantResults.forEach(v => {
       if (v) stock[String(v.id)] = { available: v.available };
     });
-    res.setHeader('Cache-Control', 's-maxage=21600, stale-while-revalidate=86400');
+    res.setHeader('Cache-Control', 's-maxage=43200, stale-while-revalidate=86400');
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.json(stock);
   } catch (err) {
