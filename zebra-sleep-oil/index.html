@@ -503,7 +503,7 @@ footer{background:var(--black);color:rgba(255,255,255,.7);font-size:14px;padding
           <label class="plan-card active" data-plan="onetime"><span class="plan-radio" aria-hidden="true"></span><span><span class="t">One-Time Purchase</span><span class="s">Regular price · 30% off at checkout</span></span></label>
           <label class="plan-card" data-plan="subscribe"><span class="plan-radio" aria-hidden="true"></span><span><span class="t">Subscribe &amp; Save</span><span class="s">30% off 1st order, then up to 25% off refills</span></span><span class="tag">Up to 25%</span></label>
         </div>
-        <p class="intro-note">Intro offer: the <strong>30% discount applies to your first order only</strong>. One-time reorders are billed at the regular price; subscriptions renew at your subscriber rate (you keep up to 25% off). Cancel anytime.</p>
+        <p class="intro-note"><strong>30% off is applied automatically at checkout for your first order.</strong> Subscribe to keep saving on every refill (up to 25% off ongoing). Cancel anytime.</p>
         <div class="freq" id="freq" style="display:none">
           <select id="freq-select" aria-label="Delivery frequency">
             <option value="199846330522">Deliver every 30 days</option>
@@ -963,6 +963,20 @@ footer{background:var(--black);color:rgba(255,255,255,.7);font-size:14px;padding
       saveFill.style.width=(state.jars===1?20:state.jars===2?60:100)+"%";
       if(qhintEl) qhintEl.textContent="30% off at checkout · no commitment";
     }
+    Array.prototype.forEach.call(document.querySelectorAll('#qty .qty-tile'),function(tile){
+      var j=parseInt(tile.dataset.jars),tv=VARIANTS[j];if(!tv)return;
+      var pjEl=tile.querySelector('.pj'),prEl=tile.querySelector('.pr');if(!prEl)return;
+      var wasEl=prEl.querySelector('.was');
+      if(sub){var dp=disc(tv.price);
+        if(pjEl)pjEl.textContent='$'+(Math.round(dp/j*100)/100).toFixed(2)+' / bottle';
+        if(prEl.firstChild)prEl.firstChild.nodeValue='$'+dp.toFixed(2);
+        if(wasEl){wasEl.textContent='$'+tv.price.toFixed(2);wasEl.style.display='';}
+      }else{
+        if(pjEl)pjEl.textContent='$'+(Math.round(tv.price/j*100)/100).toFixed(2)+' / bottle';
+        if(prEl.firstChild)prEl.firstChild.nodeValue='$'+tv.price.toFixed(2);
+        if(wasEl)wasEl.style.display='none';
+      }
+    });
   }
   refresh();
 
